@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat App</title>
+   <link rel="stylesheet" href="/css/style.css">
+   <link
+    href="https://cdn.jsdelivr.net/npm/remixicon@4.3.0/fonts/remixicon.css"
+    rel="stylesheet"
+/>
+</head>
+
+<body>
+    <div class="overlay fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[50]">
+        <div class="bg-white p-6 rounded-lg shadow-lg max-w-md w-full">
+            <h2 class="text-2xl font-semibold text-gray-800 text-center mb-4">Enter Your Name</h2>
+            
+            <!-- Avatar Selection -->
+            <div class="mb-4 flex flex-wrap justify-center space-x-4">
+                <!-- Avatar Option 1 -->
+                <div class="avatar-option cursor-pointer p-1 rounded-full" data-avatar="/images/cute.jpg" style="border: 4px solid transparent;">
+                    <img src="/images/cute.jpg" alt="Avatar 1" class="w-16 h-16 rounded-full">
+                </div>
+                <!-- Avatar Option 2 -->
+                <div class="avatar-option cursor-pointer p-1 rounded-full" data-avatar="/images/genius.jpg" style="border: 4px solid transparent;">
+                    <img src="/images/genius.jpg" alt="Avatar 2" class="w-16 h-16 rounded-full">
+                </div>
+                <!-- Avatar Option 3 -->
+                <div class="avatar-option cursor-pointer p-1 rounded-full" data-avatar="/images/simple.jpg" style="border: 4px solid transparent;">
+                    <img src="/images/simple.jpg" alt="Avatar 3" class="w-16 h-16 rounded-full">
+                </div>
+            </div>
+
+            <form id="nameForm">
+                <input type="hidden" id="avatarInput" name="avatar" value="">
+                <div class="mb-4">
+                    <input type="text" id="username" name="username" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500" placeholder="Your name" required>
+                </div>
+                <div class="flex justify-center">
+                    <button type="submit" class="bg-indigo-500 text-white px-4 py-2 rounded-md hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                        Submit
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+ <div class="main bg-gray-100 h-screen flex blur-sm transition ease duration-[0.3s]">
+    <div class="call-popup fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[60]" style="display: none;">
+        <div class="bg-white p-6 rounded-lg shadow-lg max-w-md w-full">
+            <h2 class="text-2xl font-semibold text-gray-800 text-center mb-4">Incoming Call</h2>
+            <div class="flex justify-around">
+                <button class="acceptCall bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600 focus:outline-none">
+                    Accept
+                </button>
+                <button class="declineCall bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600 focus:outline-none">
+                    Decline
+                </button>
+            </div>
+        </div>
+    </div>
+      <!-- Video Call Overlay -->
+      <div class="video-overlay fixed inset-0 bg-black items-center justify-center z-[60] hidden">
+        <div class="relative w-full h-full flex items-center justify-center">
+            <!-- Remote Video -->
+            <video id="remoteVideo" class="w-full h-full object-cover rounded-lg" autoplay></video>
+
+            <!-- Local Video (small overlay) -->
+            <div class="absolute bottom-20 right-20 w-1/5 h-2/4 max-sm:right-5 max-sm:w-1/3 max-sm:h-1/4">
+                <video id="localVideo" class="w-full h-full object-cover rounded-xl" autoplay muted></video>
+            </div>
+
+            <!-- Video Call Controls -->
+            <div class="absolute bottom-8 flex items-center justify-center gap-4">
+                <!-- Mute Button -->
+                <button class="bg-gray-700 text-white p-3 rounded-full hover:bg-gray-600 focus:outline-none">
+                    <i class="ri-mic-off-line"></i>
+                </button>
+
+                <!-- Stop Video Button -->
+                <button class="bg-gray-700 text-white p-3 rounded-full hover:bg-gray-600 focus:outline-none">
+                    <i class="ri-camera-off-line"></i>
+                </button>
+
+                <!-- End Call Button -->
+                <button class="hang-up bg-red-600 text-white p-3 rounded-full hover:bg-red-500 focus:outline-none">
+                    <i class="ri-phone-hang-up-line"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+       <!-- Sidebar -->
+       <div class="sideBar w-1/4 shadow-lg max-sm:w-full">
+        <div class="p-4 border-b">
+            <h1 class="text-xl font-semibold">Members</h1>
+        </div>
+        <ul class="p-4 space-y-4 contactList">
+
+            <!-- Add more contacts here -->
+        </ul>
+    </div>
+    <div class="welcomeArea flex-1 flex flex-col items-center justify-center relative transition-all ease duration-[0.2s] max-sm:hidden">
+        <!-- Welcome Message -->
+        <div class="bg-gray-400 text-white p-4 rounded-lg shadow-md">
+            <h1 class="text-lg font-bold">Welcome to ChatApp!</h1>
+            <p class="mt-2">Connect with your friends and start chatting.</p>
+          </div>
+
+    </div>
+    <!-- Chat Area -->
+    <div class="chatingArea flex-1  flex-col relative transition-all ease duration-[0.2s] hidden">
+        <!-- Chat Header -->
+<div class="p-4 bg-white border-b flex items-center justify-between">
+    <div class="flex items-center space-x-4">
+        <img class="friendImage h-10 w-10 rounded-full object-cover" src="https://via.placeholder.com/150" alt="Chat User">
+        <h2 class="friendName text-xl font-semibold">Chat with User 1</h2>
+    </div>
+    <div class="flex space-x-5">
+        <!-- Video Call Button -->
+        <button class="videoCall text-gray-500 hover:text-gray-700">
+            <i class="ri-video-on-fill"></i>
+        </button>
+
+        <!-- Leave Button -->
+        <button class="leaveBtn text-red-500 hover:text-red-700 flex gap-1 items-center bg-gray-200 py-1 px-2 rounded">
+            <h1 class="text-base tracking-wide font-semibold font-sans">leave</h1>
+            <i class="ri-arrow-turn-forward-line"></i>
+        </button>
+    </div>
+</div>
+
+        <!-- Chat Messages -->
+        <div class="container flex flex-col flex-1 overflow-y-auto p-4 space-y-4">
+          
+         
+            <!-- Add more messages here -->
+        </div>
+
+        <!-- Chat Input -->
+        <form class="formSubmit p-4 bg-white border-t flex items-center space-x-4">
+            <input type="text" placeholder="Type your message..." class="messageInput flex-1 p-2 border rounded-lg">
+            <button class="sendMessage bg-blue-500 text-white px-4 py-2 rounded-lg">Send</button>
+        </form>
+    </div>
+
+ </div>
+    <script src="https://cdn.socket.io/4.7.5/socket.io.min.js" integrity="sha384-2huaZvOR9iDzHqslqwpR87isEmrfxqyWOF7hr7BY6KG0+hVKLoEXMPUJw3ynWuhO" crossorigin="anonymous"></script>
+    <script src="/scripts/script.js"></script>
+</body>
+
+</html>
